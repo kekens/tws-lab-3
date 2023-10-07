@@ -3,7 +3,14 @@ package ru.kekens;
 /**
  * Объект для передачи параметров значения поля сущности
  */
-public class ValueParamsDto {
+//@XmlRootElement
+//@XmlType(name = "ValueParamsDto")
+public class KeyValueParamsDto {
+
+    /**
+     * Ключ
+     */
+    private String key;
 
     /**
      * Значение
@@ -20,6 +27,15 @@ public class ValueParamsDto {
      */
     private String logicOperation;
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    //    @XmlElement
     public Object getValue() {
         return value;
     }
@@ -28,6 +44,7 @@ public class ValueParamsDto {
         this.value = value;
     }
 
+//    @XmlElement
     public String getCompareOperation() {
         return compareOperation;
     }
@@ -36,6 +53,7 @@ public class ValueParamsDto {
         this.compareOperation = compareOperation;
     }
 
+//    @XmlElement
     public String getLogicOperation() {
         return logicOperation;
     }

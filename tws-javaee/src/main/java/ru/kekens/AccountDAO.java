@@ -144,7 +144,7 @@ public class AccountDAO {
             String code = rs.getString("code");
             String category = rs.getString("category");
             BigDecimal amount = rs.getBigDecimal("amount");
-            Date date = rs.getDate("date");
+            Date date = rs.getDate("open_date");
 
             // Создаем и кладем в список
             Account account = new Account(id, label, code, category, amount, date);

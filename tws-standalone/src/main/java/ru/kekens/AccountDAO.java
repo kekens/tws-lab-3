@@ -2,6 +2,7 @@ package ru.kekens;
 
 import org.apache.commons.lang3.StringUtils;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
@@ -35,42 +36,45 @@ public class AccountDAO {
      * Метод для поиска счетов по параметрам
      * @return список счетов
      */
-    public List<Account> getAccountsByParams(Map<String, ValueParamsDto> params) {
+    public List<Account> getAccountsByParams(List<KeyValueParamsDto> params) {
         // Проверка параметров на пустоту
         if (params == null || params.isEmpty()) {
             return getAccounts();
         }
 
         // Проверяем параметры
-        Map<String, ValueParamsDto> resultParams = new HashMap<>();
-        for (Map.Entry<String, ValueParamsDto> entry : params.entrySet()) {
+        List<KeyValueParamsDto> resultParams = new ArrayList<>();
+        for (KeyValueParamsDto entry : params) {
             // Проверяем значение
-            String key = entry.getKey();
-            ValueParamsDto valueParamsDto = entry.getValue();
-            if (checkValueParams(key, valueParamsDto)) {
-                resultParams.put(key, valueParamsDto);
+            if (checkValueParams(entry)) {
+                resultParams.add(entry);
             }
         }
 
         // Сортируем мапу по логической операции
-        resultParams = resultParams.entrySet()
+        resultParams = resultParams
                 .stream()
-                .sorted(Comparator.comparing(entry -> !entry.getValue().getLogicOperation().equals("AND")))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, HashMap::new));
+                .sorted(Comparator.comparing(entry -> !entry.getLogicOperation().equals("AND")))
+                .collect(Collectors.toList());
 
         // Формируем запрос
         StringBuilder query = new StringBuilder(ACCOUNT_QUERY);
-        for (Map.Entry<String, ValueParamsDto> entry : resultParams.entrySet()) {
-            ValueParamsDto valueParamsDto = entry.getValue();
-            query.append(String.format(" %s %s %s :%s", valueParamsDto.getLogicOperation(), entry.getKey(),
-                    valueParamsDto.getCompareOperation(),
-                    entry.getKey()));
+        for (int i = 0; i < resultParams.size(); i++) {
+            KeyValueParamsDto entry = resultParams.get(i);
+            if (i == 0) {
+                query.append(String.format(" AND (%s %s ?", entry.getKey(),
+                        entry.getCompareOperation()));
+            } else {
+                query.append(String.format(" %s %s %s ?", entry.getLogicOperation(), entry.getKey(),
+                        entry.getCompareOperation()));
+            }
         }
+        query.append(")");
 
         // Test
         System.out.println(query);
 
-        return executeQueryWithParams(query.toString(), params);
+        return executeQueryWithParams(query.toString(), resultParams);
     }
 
     /**
@@ -92,28 +96,32 @@ public class AccountDAO {
      * Метод для вызова SQL-запроса к базе данных по поиску счетов с параметрами
      * @return список счетов
      */
-    private List<Account> executeQueryWithParams(String query, Map<String, ValueParamsDto> params) {
+    private List<Account> executeQueryWithParams(String query, List<KeyValueParamsDto> params) {
         List<Account> accounts = new ArrayList<>();
         try (Connection connection = ConnectionUtil.getConnection()){
             CallableStatement stmt = connection.prepareCall(query);
 
             // Устанавливаем параметры
-            for (Map.Entry<String, ValueParamsDto> param : params.entrySet()) {
-                String key = param.getKey();
-                ValueParamsDto valueParamsDto = param.getValue();
-                Object value = valueParamsDto.getValue();
+            int i = 1;
+            for (KeyValueParamsDto param : params) {
+                Object value = param.getValue();
 
                 // Проверяем значение
                 if (value instanceof String) {
-                    stmt.setString(key, (String) value);
+                    String valueStr = param.getCompareOperation().equalsIgnoreCase("LIKE") ?
+                            "%" + value + "%" : (String) value;
+                    stmt.setString(i++, valueStr);
                 } else if (value instanceof Long) {
-                    stmt.setLong(key, (Long) value);
+                    stmt.setLong(i++, (Long) value);
                 } else if (value instanceof Integer) {
-                    stmt.setInt(key, (Integer) value);
+                    stmt.setInt(i++, (Integer) value);
                 } else if (value instanceof BigDecimal) {
-                    stmt.setBigDecimal(key, (BigDecimal) value);
-                } else if (value instanceof Date) {
-                    stmt.setDate(key, (java.sql.Date) value);
+                    stmt.setBigDecimal(i++, (BigDecimal) value);
+                } else if (value instanceof XMLGregorianCalendar) {
+                    stmt.setDate(i++, new java.sql.Date(((XMLGregorianCalendar) value).toGregorianCalendar().getTime().getTime()));
+                } else {
+                    log("Не поддерживается тип данных параметра " + value.getClass().getName());
+                    System.out.println("Не поддерживается тип данных параметра " + value.getClass().getName());
                 }
             }
 
@@ -140,7 +148,7 @@ public class AccountDAO {
             String code = rs.getString("code");
             String category = rs.getString("category");
             BigDecimal amount = rs.getBigDecimal("amount");
-            Date date = rs.getDate("date");
+            Date date = rs.getDate("open_date");
 
             // Создаем и кладем в список
             Account account = new Account(id, label, code, category, amount, date);
@@ -152,13 +160,14 @@ public class AccountDAO {
 
     /**
      * Проверка объекта параметра для запроса
-     * @param valueParamsDto объект параметра для запроса
+     * @param keyValueParamsDto объект параметра для запроса
      * @return признак да/нет (валидный/невалидный)
      */
-    private Boolean checkValueParams(String key, ValueParamsDto valueParamsDto) {
+    private Boolean checkValueParams(KeyValueParamsDto keyValueParamsDto) {
         boolean isValid = true;
+        String key = keyValueParamsDto.getKey();
         // Проверка операции сравнения
-        String compareOperation = valueParamsDto.getCompareOperation();
+        String compareOperation = keyValueParamsDto.getCompareOperation();
         if (StringUtils.isEmpty(compareOperation)) {
             compareOperation = DEFAULT_COMPARE_OPERATION;
         }
@@ -168,13 +177,13 @@ public class AccountDAO {
             isValid = false;
         }
 
-        if (compareOperation.toUpperCase().equals("LIKE") && !(valueParamsDto.getValue() instanceof String)) {
+        if (compareOperation.toUpperCase().equals("LIKE") && !(keyValueParamsDto.getValue() instanceof String)) {
             log("Не поддерживается операция сравнения \"LIKE\" для нестроковых значений. Параметр " + key + " не будет учтен");
             isValid = false;
         }
 
         // Проверка логической операции
-        String logicOperation = valueParamsDto.getLogicOperation();
+        String logicOperation = keyValueParamsDto.getLogicOperation();
         if (StringUtils.isEmpty(logicOperation)) {
             logicOperation = DEFAULT_LOGIC_OPERATION;
         }

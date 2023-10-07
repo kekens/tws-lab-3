@@ -4,34 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a29320a2-aa1d-4380-8302-764259d42cd4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.MD" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/init_db.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-client/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-client/src/main/java/ru/kekens/WebServiceClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-javaee/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/Account.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountWebService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/ValueParamsDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-javaee/src/main/webapp/META-INF/context.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-standalone/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/Account.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/AccountDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/AccountWebService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/ConnectionUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/ValueParamsDto.java" afterDir="false" />
+    <list default="true" id="a29320a2-aa1d-4380-8302-764259d42cd4" name="Changes" comment="feature(standalone): created classes for resource and dao">
+      <change afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/AccountsRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tws-client/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-client/src/main/java/ru/kekens/WebServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-client/src/main/java/ru/kekens/WebServiceClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-javaee/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-standalone/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tws-standalone/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/AccountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/AccountDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/AccountWebService.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/AccountWebService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/ValueParamsDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/KeyValueParamsDto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,6 +58,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -95,12 +79,13 @@
       <recent name="ru.kekens" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.App">
+  <component name="RunManager" selected="Application.WebServiceClient">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="17" />
       <option name="MAIN_CLASS_NAME" value="ru.kekens.App" />
       <module name="tws-standalone" />
       <option name="PROGRAM_PARAMETERS" value="--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.management/javax.management.openmbean=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED" />
+      <option name="VM_PARAMETERS" value="--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.management/javax.management.openmbean=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="ru.kekens.*" />
@@ -111,15 +96,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="tws-lab-1-soap-search" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="tws-lab-1-soap-search" />
-      <option name="filePath" />
+    <configuration name="WebServiceClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.kekens.WebServiceClient" />
+      <module name="tws-client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.kekens.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -149,15 +134,19 @@
       <method v="2" />
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
-      <deployment type="dockerfile" />
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Application.WebServiceClient" />
       <item itemvalue="Application.App" />
       <item itemvalue="Docker.Run tws-db" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.WebServiceClient" />
         <item itemvalue="Application.App" />
         <item itemvalue="Docker.Run tws-db" />
       </list>
@@ -173,8 +162,20 @@
       <updated>1696683109222</updated>
       <workItem from="1696683110231" duration="280000" />
       <workItem from="1696683710792" duration="1033000" />
-      <workItem from="1696684881301" duration="15741000" />
+      <workItem from="1696684881301" duration="16474000" />
+      <workItem from="1696702321810" duration="81000" />
+      <workItem from="1696702409183" duration="361000" />
+      <workItem from="1696702788063" duration="10424000" />
     </task>
+    <task id="LOCAL-00001" summary="feature(standalone): created classes for resource and dao">
+      <option name="closed" value="true" />
+      <created>1696701647026</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1696701647026</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,5 +184,9 @@
   <component name="UnknownFeatures">
     <option featureType="dependencySupport" implementationName="maven-packaging:war" />
     <option featureType="dependencySupport" implementationName="java:jakarta.xml.ws:jakarta.xml.ws-api" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feature(standalone): created classes for resource and dao" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature(standalone): created classes for resource and dao" />
   </component>
 </project>
