@@ -2,7 +2,8 @@ package ru.kekens;
 
 import org.apache.commons.lang3.StringUtils;
 
-import javax.annotation.Resource;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigDecimal;
@@ -26,8 +27,21 @@ public class AccountDAO {
     private static final String DEFAULT_COMPARE_OPERATION = "=";
     private static final String DEFAULT_LOGIC_OPERATION = "AND";
 
-    @Resource(lookup = "java:comp/env/jdbc/ifmo-tws")
-    private DataSource dataSource;
+    private final DataSource dataSource;
+
+    public AccountDAO() {
+        try {
+            InitialContext cxt = new InitialContext();
+
+            dataSource = (DataSource) cxt.lookup("java:/comp/env/jdbc/ifmoTwsDb");
+
+            if (dataSource == null) {
+                throw new RuntimeException("Data source not found!");
+            }
+        } catch (NamingException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
     /**
      * Метод для поиска всех счетов

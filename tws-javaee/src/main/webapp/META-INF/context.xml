@@ -1,5 +1,5 @@
 <Context>
-    <Resource name="jdbc/ifmo-tws" auth="Container"
+    <Resource name="jdbc/ifmoTwsDb" auth="Container"
               type="javax.sql.DataSource"
               username="ifmo-tws" password="12345678"
               driverClassName="org.postgresql.Driver"

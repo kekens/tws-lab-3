@@ -9,15 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a29320a2-aa1d-4380-8302-764259d42cd4" name="Changes" comment="feature(standalone): refactoring of dao methods">
-      <change afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountsRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-javaee/src/main/webapp/WEB-INF/sun-jaxws.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tws-javaee/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+    <list default="true" id="a29320a2-aa1d-4380-8302-764259d42cd4" name="Changes" comment="feature(webapp): again refactoring of dao methods">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tws-client/src/main/java/ru/kekens/WebServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-client/src/main/java/ru/kekens/WebServiceClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-javaee/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountWebService.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountWebService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/ValueParamsDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/KeyValueParamsDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-javaee/src/main/webapp/META-INF/context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/src/main/webapp/META-INF/context.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-javaee/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,7 +262,7 @@
       <workItem from="1696684881301" duration="16474000" />
       <workItem from="1696702321810" duration="81000" />
       <workItem from="1696702409183" duration="361000" />
-      <workItem from="1696702788063" duration="12610000" />
+      <workItem from="1696702788063" duration="13930000" />
     </task>
     <task id="LOCAL-00001" summary="feature(standalone): created classes for resource and dao">
       <option name="closed" value="true" />
@@ -283,7 +280,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696717733159</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feature(webapp): again refactoring of dao methods">
+      <option name="closed" value="true" />
+      <created>1696747777395</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1696747777395</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -296,6 +301,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feature(standalone): created classes for resource and dao" />
     <MESSAGE value="feature(standalone): refactoring of dao methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature(standalone): refactoring of dao methods" />
+    <MESSAGE value="feature(webapp): again refactoring of dao methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature(webapp): again refactoring of dao methods" />
   </component>
 </project>
