@@ -3,7 +3,12 @@ package ru.kekens;
 /**
  * Объект для передачи параметров значения поля сущности
  */
-public class ValueParamsDto {
+public class KeyValueParamsDto {
+
+    /**
+     * Ключ
+     */
+    private String key;
 
     /**
      * Значение
@@ -19,6 +24,14 @@ public class ValueParamsDto {
      * Логическая операция (AND, OR)
      */
     private String logicOperation;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public Object getValue() {
         return value;

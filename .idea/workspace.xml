@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="tws-javaee:war" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a29320a2-aa1d-4380-8302-764259d42cd4" name="Changes" comment="feature(standalone): created classes for resource and dao">
-      <change afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/AccountsRequest.java" afterDir="false" />
+    <list default="true" id="a29320a2-aa1d-4380-8302-764259d42cd4" name="Changes" comment="feature(standalone): refactoring of dao methods">
+      <change afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountsRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tws-javaee/src/main/webapp/WEB-INF/sun-jaxws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tws-javaee/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tws-client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tws-client/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tws-client/src/main/java/ru/kekens/WebServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-client/src/main/java/ru/kekens/WebServiceClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tws-javaee/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tws-standalone/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tws-standalone/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/AccountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/AccountDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/AccountWebService.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/AccountWebService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/ValueParamsDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/KeyValueParamsDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountWebService.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountWebService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/ValueParamsDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/KeyValueParamsDto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +33,13 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -59,7 +69,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "vue.rearranger.settings.migration": "true"
@@ -109,6 +119,95 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Tomcat 9.0.80" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.80" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
+      <option name="COMMON_VM_ARGUMENTS" value="--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.management/javax.management.openmbean=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.management/javax.management=ALL-UNNAMED" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="tws-javaee:war">
+          <settings>
+            <option name="CONTEXT_PATH" value="/tws-javaee" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="83e98f18-3f8a-4456-96fb-796fa794a3b2" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="53213" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="tws-javaee:war" />
+        </option>
+      </method>
+    </configuration>
     <configuration name="Run tws-db" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
       <deployment type="dockerfile">
         <settings>
@@ -143,6 +242,7 @@
       <item itemvalue="Application.WebServiceClient" />
       <item itemvalue="Application.App" />
       <item itemvalue="Docker.Run tws-db" />
+      <item itemvalue="Tomcat Server.Tomcat 9.0.80" />
     </list>
     <recent_temporary>
       <list>
@@ -165,7 +265,7 @@
       <workItem from="1696684881301" duration="16474000" />
       <workItem from="1696702321810" duration="81000" />
       <workItem from="1696702409183" duration="361000" />
-      <workItem from="1696702788063" duration="10424000" />
+      <workItem from="1696702788063" duration="12610000" />
     </task>
     <task id="LOCAL-00001" summary="feature(standalone): created classes for resource and dao">
       <option name="closed" value="true" />
@@ -175,7 +275,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696701647026</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feature(standalone): refactoring of dao methods">
+      <option name="closed" value="true" />
+      <created>1696717733159</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1696717733159</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -187,6 +295,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feature(standalone): created classes for resource and dao" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature(standalone): created classes for resource and dao" />
+    <MESSAGE value="feature(standalone): refactoring of dao methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature(standalone): refactoring of dao methods" />
   </component>
 </project>

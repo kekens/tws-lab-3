@@ -11,9 +11,9 @@ import java.util.List;
 public class AccountWebService {
 
     @WebMethod(operationName = "getAccounts")
-    public List<Account> getAccounts() {
+    public List<Account> getAccounts(AccountsRequest accountsRequest) {
         AccountDAO dao = new AccountDAO();
-        return dao.getAccounts();
+        return dao.getAccountsByParams(accountsRequest.getList());
     }
 
 }

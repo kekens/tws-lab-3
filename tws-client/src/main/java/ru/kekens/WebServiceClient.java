@@ -16,9 +16,9 @@ import java.util.List;
 public class WebServiceClient {
     public static void main(String[] args) throws MalformedURLException, ParseException {
         // Web app
-//        URL url = new URL("http://localhost:8080/AccountService?wsdl");
+        URL url = new URL("http://localhost:8080/tws-javaee/ws/account-service?wsdl");
         // Standalone
-        URL url = new URL("http://localhost:8080/AccountService?wsdl");
+//        URL url = new URL("http://localhost:8080/AccountService?wsdl");
         AccountService accountService = new AccountService(url);
 
         // Request 0
