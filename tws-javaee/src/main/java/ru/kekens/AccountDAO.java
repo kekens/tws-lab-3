@@ -27,20 +27,10 @@ public class AccountDAO {
     private static final String DEFAULT_COMPARE_OPERATION = "=";
     private static final String DEFAULT_LOGIC_OPERATION = "AND";
 
-    private final DataSource dataSource;
+    private final Connection connection;
 
-    public AccountDAO() {
-        try {
-            InitialContext cxt = new InitialContext();
-
-            dataSource = (DataSource) cxt.lookup("java:/comp/env/jdbc/ifmoTwsDb");
-
-            if (dataSource == null) {
-                throw new RuntimeException("Data source not found!");
-            }
-        } catch (NamingException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+    public AccountDAO(Connection connection) {
+        this.connection = connection;
     }
 
     /**
@@ -102,7 +92,7 @@ public class AccountDAO {
      */
     private List<Account> executeQuery(String query) {
         List<Account> accounts = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection()){
+        try {
             Statement stmt = connection.createStatement();
             accounts.addAll(handleResultSet(stmt.executeQuery(query)));
         } catch (SQLException ex) {
@@ -117,7 +107,7 @@ public class AccountDAO {
      */
     private List<Account> executeQueryWithParams(String query, List<KeyValueParamsDto> params) {
         List<Account> accounts = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection()){
+        try {
             CallableStatement stmt = connection.prepareCall(query);
 
             // Устанавливаем параметры
