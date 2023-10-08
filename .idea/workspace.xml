@@ -9,12 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a29320a2-aa1d-4380-8302-764259d42cd4" name="Changes" comment="feature(webapp): again refactoring of dao methods">
-      <change afterPath="$PROJECT_DIR$/tws-javaee/src/main/webapp/WEB-INF/beans.xml" afterDir="false" />
+    <list default="true" id="a29320a2-aa1d-4380-8302-764259d42cd4" name="Changes" comment="feature(webapp): move getting of connection to webservice">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tws-javaee/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountWebService.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-javaee/src/main/java/ru/kekens/AccountWebService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tws-client/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-client/src/main/java/ru/kekens/WebServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-client/src/main/java/ru/kekens/WebServiceClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/KeyValueParamsDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/tws-standalone/src/main/java/ru/kekens/KeyValueParamsDto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -300,7 +300,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696747777395</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feature(webapp): move getting of connection to webservice">
+      <option name="closed" value="true" />
+      <created>1696754835968</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1696754835968</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -314,6 +322,7 @@
     <MESSAGE value="feature(standalone): created classes for resource and dao" />
     <MESSAGE value="feature(standalone): refactoring of dao methods" />
     <MESSAGE value="feature(webapp): again refactoring of dao methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature(webapp): again refactoring of dao methods" />
+    <MESSAGE value="feature(webapp): move getting of connection to webservice" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature(webapp): move getting of connection to webservice" />
   </component>
 </project>

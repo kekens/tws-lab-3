@@ -18,7 +18,7 @@ public class WebServiceClient {
         // Web app
         URL url = new URL("http://localhost:8080/tws-javaee/ws/account-service?wsdl");
         // Standalone
-//        URL url = new URL("http://localhost:8080/AccountService?wsdl");
+//        URL url = new URL("http://localhost:8081/AccountService?wsdl");
         AccountService accountService = new AccountService(url);
 
         // Request 0
@@ -55,7 +55,7 @@ public class WebServiceClient {
         request2.getList().add(paramsDto2);
         accountList = accountService.getAccountWebServicePort().getAccounts(request2);
 
-        System.out.println("\nRequest 2 - by date > 2023-01-01. Found " + accountList.size() + " accounts");
+        System.out.println("\nRequest 2 - by date > 2022-01-01. Found " + accountList.size() + " accounts");
         for (Account account : accountList) {
             printAccountInfo(account);
         }
@@ -66,7 +66,7 @@ public class WebServiceClient {
         request3.getList().add(paramsDto2);
         accountList = accountService.getAccountWebServicePort().getAccounts(request3);
 
-        System.out.println("\nRequest 3 - by category \"personal\" and date > 2023-01-01. Found " + accountList.size() + " accounts");
+        System.out.println("\nRequest 3 - by category \"personal\" and date > 2022-01-01. Found " + accountList.size() + " accounts");
         for (Account account : accountList) {
             printAccountInfo(account);
         }
@@ -134,7 +134,7 @@ public class WebServiceClient {
 
     private static void printAccountInfo(Account acc) {
         System.out.printf("Account %d: label - %s;\t code - %s;\t category - %s;\t amount - %.2f;\t openDate - %s\n",
-                acc.getId(), acc.getLabel(), acc.getCategory(), acc.getCategory(),
+                acc.getId(), acc.getLabel(), acc.getCode(), acc.getCategory(),
                 acc.getAmount().setScale(2, RoundingMode.HALF_UP), acc.getOpenDate());
     }
 

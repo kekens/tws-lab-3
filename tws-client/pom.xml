@@ -51,7 +51,7 @@
                 </executions>
 
                 <configuration>
-                    <wsdlUrls>http://localhost:8080/AccountService?wsdl</wsdlUrls>
+                    <wsdlUrls>http://localhost:8081/AccountService?wsdl</wsdlUrls>
                     <packageName>ws</packageName>
                     <sourceDestDir>
                         ${project.basedir}/src/main/java
