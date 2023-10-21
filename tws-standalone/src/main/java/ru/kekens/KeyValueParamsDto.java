@@ -5,6 +5,14 @@ package ru.kekens;
  */
 public class KeyValueParamsDto {
 
+    public KeyValueParamsDto() {
+    }
+
+    public KeyValueParamsDto(String key, Object value) {
+        this.key = key;
+        this.value = value;
+    }
+
     /**
      * Ключ
      */

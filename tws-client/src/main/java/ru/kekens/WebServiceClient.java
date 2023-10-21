@@ -16,14 +16,27 @@ import java.util.List;
 public class WebServiceClient {
     public static void main(String[] args) throws MalformedURLException, ParseException {
         // Web app
-        URL url = new URL("http://localhost:8080/tws-javaee/ws/account-service?wsdl");
+//        URL url = new URL("http://localhost:8080/tws-javaee/ws/account-service?wsdl");
         // Standalone
-//        URL url = new URL("http://localhost:8081/AccountService?wsdl");
+        URL url = new URL("http://localhost:8081/AccountService?wsdl");
         AccountService accountService = new AccountService(url);
 
+        getAccounts(accountService);
+        insertAccounts(accountService);
+    }
+
+    private static void printAccountInfo(Account acc) {
+        System.out.printf("Account %d: label - %s;\t code - %s;\t category - %s;\t amount - %.2f;\t openDate - %s\n",
+                acc.getId(), acc.getLabel(), acc.getCode(), acc.getCategory(),
+                acc.getAmount().setScale(2, RoundingMode.HALF_UP), acc.getOpenDate());
+    }
+
+
+    private static void getAccounts(AccountService accountService) throws ParseException {
         // Request 0
         List<Account> accountList = accountService.getAccountWebServicePort().getAccounts(new AccountsRequest());
 
+        System.out.println("------ START GET ACCOUNTS ------ ");
         System.out.println("Request 0 - All");
         for (Account account : accountList) {
             printAccountInfo(account);
@@ -129,13 +142,47 @@ public class WebServiceClient {
         for (Account account : accountList) {
             printAccountInfo(account);
         }
-
+        System.out.println("------ END GET ACCOUNTS ------ ");
     }
 
-    private static void printAccountInfo(Account acc) {
-        System.out.printf("Account %d: label - %s;\t code - %s;\t category - %s;\t amount - %.2f;\t openDate - %s\n",
-                acc.getId(), acc.getLabel(), acc.getCode(), acc.getCategory(),
-                acc.getAmount().setScale(2, RoundingMode.HALF_UP), acc.getOpenDate());
-    }
+    private static void insertAccounts(AccountService accountService) throws ParseException {
+        System.out.println("------ START INSERT ACCOUNTS ------ ");
+        System.out.println("Request 0 - All");
 
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        // Request 1
+        AccountsRequest request1 = new AccountsRequest();
+        KeyValueParamsDto paramsDto1 = new KeyValueParamsDto();
+        paramsDto1.setKey("label");
+        paramsDto1.setValue("New account 1");
+        KeyValueParamsDto paramsDto2 = new KeyValueParamsDto();
+        paramsDto2.setKey("code");
+        paramsDto2.setValue("30303");
+        KeyValueParamsDto paramsDto3 = new KeyValueParamsDto();
+        paramsDto3.setKey("category");
+        paramsDto3.setValue("derivative");
+        KeyValueParamsDto paramsDto4 = new KeyValueParamsDto();
+        paramsDto4.setKey("amount");
+        paramsDto4.setValue(BigDecimal.TEN);
+        KeyValueParamsDto paramsDto5 = new KeyValueParamsDto();
+        paramsDto5.setKey("open_date");
+        paramsDto5.setValue(format.parse("2021-04-04"));
+        request1.getList().addAll(List.of(paramsDto1, paramsDto2, paramsDto3, paramsDto4, paramsDto5));
+        Long id = accountService.getAccountWebServicePort().insertAccount(request1);
+
+        System.out.println("\nRequest 1 - INSERT (New account 1, 30303, derivative, 10.00, 2021-04-04)\n" +
+                "New id: " + id);
+
+        // Request 2
+//        AccountsRequest request2 = new AccountsRequest();
+//        KeyValueParamsDto paramsDto2 = new KeyValueParamsDto();
+//        paramsDto2.setKey("open_date");
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//        paramsDto2.setValue(format.parse("2022-01-01"));
+//        paramsDto2.setCompareOperation(">");
+//        paramsDto2.setLogicOperation("AND");
+//        request2.getList().add(paramsDto2);
+//        accountList = accountService.getAccountWebServicePort().getAccounts(request2);
+        System.out.println("------ END INSERT ACCOUNTS ------ ");
+    }
 }

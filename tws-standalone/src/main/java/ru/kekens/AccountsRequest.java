@@ -4,11 +4,11 @@ package ru.kekens;
 import java.util.ArrayList;
 
 /**
- * Обертка для запроса
+ * Обертка для запроса по счетам
  */
 public class AccountsRequest {
 
-    ArrayList<KeyValueParamsDto> list;
+    private ArrayList<KeyValueParamsDto> list;
 
     public AccountsRequest() {
         this.list = new ArrayList<>();
