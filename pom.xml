@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.kekens</groupId>
-    <artifactId>tws-lab-1-soap-search</artifactId>
+    <artifactId>tws-lab-2-soap-crud</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
