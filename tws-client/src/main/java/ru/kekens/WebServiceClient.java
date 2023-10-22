@@ -81,7 +81,7 @@ public class WebServiceClient {
         requestIns3.getList().add(paramsInsDto11);
         Long id3 = accountService.getAccountWebServicePort().insertAccount(requestIns3);
 
-        System.out.println("\nRequest 2 - INSERT (New account 3)\n" +
+        System.out.println("\nRequest 3 - INSERT (New account 3)\n" +
                 "New id: " + id3);
 
         // Get all
@@ -147,15 +147,15 @@ public class WebServiceClient {
         }
         System.out.println("------ END UPDATE ACCOUNTS ------ ");
 
-        // UPDATE ACCOUNTS
+        // DELETE ACCOUNTS
         System.out.println("\n------ START DELETE ACCOUNTS ------ ");
-        System.out.println("Request 1 - DELETE FROM account" +
+        System.out.println("Request 1 - DELETE FROM account " +
                 "WHERE id = " + id);
         // Request 1 - Delete new account 1
         accountService.getAccountWebServicePort().deleteAccount(id);
 
         // Request 2 - Delete new account 2
-        System.out.println("Request 2 - DELETE FROM account" +
+        System.out.println("Request 2 - DELETE FROM account " +
                 "WHERE id = " + id2);
         accountService.getAccountWebServicePort().deleteAccount(id2);
 
