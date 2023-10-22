@@ -22,7 +22,161 @@ public class WebServiceClient {
         AccountService accountService = new AccountService(url);
 
         getAccounts(accountService);
-        insertAccounts(accountService);
+
+        // INSERT ACCOUNTS
+        System.out.println("\n------ START INSERT ACCOUNTS ------ ");
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        // Request 1
+        AccountsRequest requestIns1 = new AccountsRequest();
+        KeyValueParamsDto paramsInsDto1 = new KeyValueParamsDto();
+        paramsInsDto1.setKey("label");
+        paramsInsDto1.setValue("New account 1");
+        KeyValueParamsDto paramsInsDto2 = new KeyValueParamsDto();
+        paramsInsDto2.setKey("code");
+        paramsInsDto2.setValue("30303");
+        KeyValueParamsDto paramsInsDto3 = new KeyValueParamsDto();
+        paramsInsDto3.setKey("category");
+        paramsInsDto3.setValue("derivative");
+        KeyValueParamsDto paramsInsDto4 = new KeyValueParamsDto();
+        paramsInsDto4.setKey("amount");
+        paramsInsDto4.setValue(BigDecimal.TEN);
+        KeyValueParamsDto paramsInsDto5 = new KeyValueParamsDto();
+        paramsInsDto5.setKey("open_date");
+        paramsInsDto5.setValue(format.parse("2021-04-04"));
+        requestIns1.getList().addAll(List.of(paramsInsDto1, paramsInsDto2, paramsInsDto3, paramsInsDto4, paramsInsDto5));
+        Long id = accountService.getAccountWebServicePort().insertAccount(requestIns1);
+
+        System.out.println("\nRequest 1 - INSERT (New account 1, 30303, derivative, 10.00, 2021-04-04)\n" +
+                "New id: " + id);
+
+        // Request 2
+        AccountsRequest requestIns2 = new AccountsRequest();
+        KeyValueParamsDto paramsInsDto6 = new KeyValueParamsDto();
+        paramsInsDto6.setKey("label");
+        paramsInsDto6.setValue("New account 2");
+        KeyValueParamsDto paramsInsDto7 = new KeyValueParamsDto();
+        paramsInsDto7.setKey("code");
+        paramsInsDto7.setValue("63696");
+        KeyValueParamsDto paramsInsDto8 = new KeyValueParamsDto();
+        paramsInsDto8.setKey("category");
+        paramsInsDto8.setValue("fictious");
+        KeyValueParamsDto paramsInsDto9 = new KeyValueParamsDto();
+        paramsInsDto9.setKey("amount");
+        paramsInsDto9.setValue(new BigDecimal("111.999"));
+        KeyValueParamsDto paramsInsDto10 = new KeyValueParamsDto();
+        paramsInsDto10.setKey("open_date");
+        paramsInsDto10.setValue(format.parse("2023-09-01"));
+        requestIns2.getList().addAll(List.of(paramsInsDto6, paramsInsDto7, paramsInsDto8, paramsInsDto9, paramsInsDto10));
+        Long id2 = accountService.getAccountWebServicePort().insertAccount(requestIns2);
+
+        System.out.println("\nRequest 2 - INSERT (New account 2, 63696, fictious, 111.999, 2023-09-01)\n" +
+                "New id: " + id2);
+
+        // Request 3
+        AccountsRequest requestIns3 = new AccountsRequest();
+        KeyValueParamsDto paramsInsDto11 = new KeyValueParamsDto();
+        paramsInsDto11.setKey("label");
+        paramsInsDto11.setValue("New account 3");
+        requestIns3.getList().add(paramsInsDto11);
+        Long id3 = accountService.getAccountWebServicePort().insertAccount(requestIns3);
+
+        System.out.println("\nRequest 2 - INSERT (New account 3)\n" +
+                "New id: " + id3);
+
+        // Get all
+        List<Account> accountList = accountService.getAccountWebServicePort().getAccounts(new AccountsRequest());
+        System.out.println("\nAll accounts");
+        for (Account account : accountList) {
+            printAccountInfo(account);
+        }
+        System.out.println("------ END INSERT ACCOUNTS ------ ");
+
+        // UPDATE ACCOUNTS
+        System.out.println("\n------ START UPDATE ACCOUNTS ------ ");
+        System.out.println("Request 1 - UPDATE account SET category=personal, amount=-1000, label = New account 1 after update\n" +
+                "WHERE id = " + id);
+        // Request 1 - Update new account 1
+        AccountsRequest requestUpd1 = new AccountsRequest();
+        KeyValueParamsDto paramsUpdDto1 = new KeyValueParamsDto();
+        paramsUpdDto1.setKey("category");
+        paramsUpdDto1.setValue("personal");
+        KeyValueParamsDto paramsUpdDto2 = new KeyValueParamsDto();
+        paramsUpdDto2.setKey("amount");
+        paramsUpdDto2.setValue(new BigDecimal("-1000"));
+        KeyValueParamsDto paramsUpdDto3 = new KeyValueParamsDto();
+        paramsUpdDto3.setKey("label");
+        paramsUpdDto3.setValue("New account 1 after update");
+        requestUpd1.getList().addAll(List.of(paramsUpdDto1, paramsUpdDto2,paramsUpdDto3));
+        accountService.getAccountWebServicePort().updateAccount(id, requestUpd1);
+
+        // Request 2 - Update new account 2
+        System.out.println("Request 2 - UPDATE account SET category=personal, amount=-3000, open_date = 2014-09-01\n" +
+                "WHERE id = " + id2 + "\n");
+        AccountsRequest requestUpd2 = new AccountsRequest();
+        KeyValueParamsDto paramsUpdDto4 = new KeyValueParamsDto();
+        paramsUpdDto4.setKey("category");
+        paramsUpdDto4.setValue("personal");
+        KeyValueParamsDto paramsUpdDto5 = new KeyValueParamsDto();
+        paramsUpdDto5.setKey("amount");
+        paramsUpdDto5.setValue(new BigDecimal("-3000"));
+        KeyValueParamsDto paramsUpdDto6 = new KeyValueParamsDto();
+        paramsUpdDto6.setKey("open_date");
+        paramsUpdDto6.setValue(format.parse("2014-09-01"));
+        requestUpd2.getList().addAll(List.of(paramsUpdDto4, paramsUpdDto5, paramsUpdDto6));
+        accountService.getAccountWebServicePort().updateAccount(id2, requestUpd2);
+
+        // Get accounts 1 and 2
+        // Request 4
+        AccountsRequest requestGetNewAccounts = new AccountsRequest();
+        KeyValueParamsDto paramsDtoNew1 = new KeyValueParamsDto();
+        paramsDtoNew1.setKey("id");
+        paramsDtoNew1.setValue(id);
+        paramsDtoNew1.setCompareOperation("=");
+        paramsDtoNew1.setLogicOperation("OR");
+
+        KeyValueParamsDto paramsDtoNew2 = new KeyValueParamsDto();
+        paramsDtoNew2.setKey("id");
+        paramsDtoNew2.setValue(id2);
+        paramsDtoNew2.setCompareOperation("=");
+        paramsDtoNew2.setLogicOperation("OR");
+        requestGetNewAccounts.getList().addAll(List.of(paramsDtoNew1, paramsDtoNew2));
+        accountList = accountService.getAccountWebServicePort().getAccounts(requestGetNewAccounts);
+        for (Account account : accountList) {
+            printAccountInfo(account);
+        }
+        System.out.println("------ END UPDATE ACCOUNTS ------ ");
+
+        // UPDATE ACCOUNTS
+        System.out.println("\n------ START DELETE ACCOUNTS ------ ");
+        System.out.println("Request 1 - DELETE FROM account" +
+                "WHERE id = " + id);
+        // Request 1 - Delete new account 1
+        accountService.getAccountWebServicePort().deleteAccount(id);
+
+        // Request 2 - Delete new account 2
+        System.out.println("Request 2 - DELETE FROM account" +
+                "WHERE id = " + id2);
+        accountService.getAccountWebServicePort().deleteAccount(id2);
+
+        // Get all
+        accountList = accountService.getAccountWebServicePort().getAccounts(new AccountsRequest());
+        System.out.println("\nAll accounts");
+        for (Account account : accountList) {
+            printAccountInfo(account);
+        }
+
+        // Request 3 - Delete all accounts
+        System.out.println("\nRequest 3 - DELETE FROM account");
+        accountService.getAccountWebServicePort().deleteAccounts();
+
+        accountList = accountService.getAccountWebServicePort().getAccounts(new AccountsRequest());
+        System.out.println("\nAll accounts");
+        for (Account account : accountList) {
+            printAccountInfo(account);
+        }
+        System.out.println("------ END DELETE ACCOUNTS ------ ");
+
     }
 
     private static void printAccountInfo(Account acc) {
@@ -145,44 +299,12 @@ public class WebServiceClient {
         System.out.println("------ END GET ACCOUNTS ------ ");
     }
 
-    private static void insertAccounts(AccountService accountService) throws ParseException {
-        System.out.println("------ START INSERT ACCOUNTS ------ ");
-        System.out.println("Request 0 - All");
+    private void updateAccounts(AccountService accountService) {
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        // Request 1
-        AccountsRequest request1 = new AccountsRequest();
-        KeyValueParamsDto paramsDto1 = new KeyValueParamsDto();
-        paramsDto1.setKey("label");
-        paramsDto1.setValue("New account 1");
-        KeyValueParamsDto paramsDto2 = new KeyValueParamsDto();
-        paramsDto2.setKey("code");
-        paramsDto2.setValue("30303");
-        KeyValueParamsDto paramsDto3 = new KeyValueParamsDto();
-        paramsDto3.setKey("category");
-        paramsDto3.setValue("derivative");
-        KeyValueParamsDto paramsDto4 = new KeyValueParamsDto();
-        paramsDto4.setKey("amount");
-        paramsDto4.setValue(BigDecimal.TEN);
-        KeyValueParamsDto paramsDto5 = new KeyValueParamsDto();
-        paramsDto5.setKey("open_date");
-        paramsDto5.setValue(format.parse("2021-04-04"));
-        request1.getList().addAll(List.of(paramsDto1, paramsDto2, paramsDto3, paramsDto4, paramsDto5));
-        Long id = accountService.getAccountWebServicePort().insertAccount(request1);
-
-        System.out.println("\nRequest 1 - INSERT (New account 1, 30303, derivative, 10.00, 2021-04-04)\n" +
-                "New id: " + id);
-
-        // Request 2
-//        AccountsRequest request2 = new AccountsRequest();
-//        KeyValueParamsDto paramsDto2 = new KeyValueParamsDto();
-//        paramsDto2.setKey("open_date");
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//        paramsDto2.setValue(format.parse("2022-01-01"));
-//        paramsDto2.setCompareOperation(">");
-//        paramsDto2.setLogicOperation("AND");
-//        request2.getList().add(paramsDto2);
-//        accountList = accountService.getAccountWebServicePort().getAccounts(request2);
-        System.out.println("------ END INSERT ACCOUNTS ------ ");
     }
+
+    private void deleteAccounts(AccountService accountService) {
+
+    }
+
 }
