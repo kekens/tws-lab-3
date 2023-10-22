@@ -18,7 +18,7 @@ public class AccountDAO {
 
     private static final String SELECT_ACCOUNT_QUERY = "SELECT * FROM account WHERE 1=1";
     private static final String INSERT_ACCOUNT_QUERY = "INSERT INTO account(label, code, category, amount, open_date) VALUES(?,?,?,?,?)";
-    private static final String UPDATE_ACCOUNT_QUERY = "UPDATE TABLE account SET";
+    private static final String UPDATE_ACCOUNT_QUERY = "UPDATE account SET";
     private static final String DELETE_ACCOUNT_QUERY = "DELETE FROM account";
     private static final List<String> FIELD_ORDER = List.of("label", "code", "category", "amount", "open_date");
 
@@ -112,7 +112,7 @@ public class AccountDAO {
         long id = -1L;
         resultParams.sort(Comparator.comparing(param -> FIELD_ORDER.indexOf(param.getKey())));
         try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement stmt = getExecuteUpdateWithParamsStatement(connection, INSERT_ACCOUNT_QUERY, resultParams);
+            PreparedStatement stmt = getExecuteUpdateWithParamsStatement(connection, INSERT_ACCOUNT_QUERY, resultParams, Statement.RETURN_GENERATED_KEYS);
             if (stmt != null) {
                 stmt.executeUpdate();
                 // Получаем идентификатора
@@ -155,9 +155,9 @@ public class AccountDAO {
         for (int i = 0; i < resultParams.size(); i++) {
             KeyValueParamsDto entry = resultParams.get(i);
             if (i == resultParams.size() - 1) {
-                query.append(String.format(" %s = ?,", entry.getKey()));
-            } else {
                 query.append(String.format(" %s = ?", entry.getKey()));
+            } else {
+                query.append(String.format(" %s = ?,", entry.getKey()));
             }
         }
         query.append(" WHERE id = ").append(id);
@@ -270,7 +270,20 @@ public class AccountDAO {
      * @return список счетов
      */
     private PreparedStatement getExecuteUpdateWithParamsStatement(Connection connection, String query, List<KeyValueParamsDto> params) throws SQLException {
-        PreparedStatement stmt = connection.prepareStatement(query);
+        return getExecuteUpdateWithParamsStatement(connection, query, params, null);
+    }
+
+    /**
+     * Метод для получения SQL-запроса вида DML к базе данных с параметрами для создания, измененя или удаления счетов
+     * @return список счетов
+     */
+    private PreparedStatement getExecuteUpdateWithParamsStatement(Connection connection, String query, List<KeyValueParamsDto> params, Integer statementConst) throws SQLException {
+        PreparedStatement stmt;
+        if (statementConst == null) {
+            stmt = connection.prepareStatement(query);
+        } else {
+            stmt = connection.prepareStatement(query, statementConst);
+        }
 
         // Устанавливаем параметры
         int i = 1;
@@ -356,7 +369,7 @@ public class AccountDAO {
     private Boolean checkValueParams(KeyValueParamsDto keyValueParamsDto, boolean checkOperation) {
         String key = keyValueParamsDto.getKey();
         // Проверям поле
-        if (!FIELD_ORDER.contains(key)) {
+        if (!FIELD_ORDER.contains(key) && !key.equals("id")) {
             log("У сущности Account не существует поля " + key);
             return false;
         }
