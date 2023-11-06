@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static ru.kekens.Constants.*;
+
 /**
  * Класс, содержащий метод для выборки данных из базы данных, а также упаковки этих данных в объекты класса Account.
  */
@@ -20,13 +22,6 @@ public class AccountDAO {
     private static final String INSERT_ACCOUNT_QUERY = "INSERT INTO account(label, code, category, amount, open_date) VALUES(?,?,?,?,?)";
     private static final String UPDATE_ACCOUNT_QUERY = "UPDATE account SET";
     private static final String DELETE_ACCOUNT_QUERY = "DELETE FROM account";
-    private static final List<String> FIELD_ORDER = List.of("label", "code", "category", "amount", "open_date");
-
-    private static final Set<String> COMPARE_OPERATIONS_SET = Set.of("=", ">", "<", "LIKE");
-    private static final Set<String> LOGIC_OPERATIONS_SET = Set.of("AND", "OR");
-
-    private static final String DEFAULT_COMPARE_OPERATION = "=";
-    private static final String DEFAULT_LOGIC_OPERATION = "AND";
 
     /**
      * Метод для поиска всех счетов
@@ -36,38 +31,46 @@ public class AccountDAO {
         return executeQuery(SELECT_ACCOUNT_QUERY);
     }
 
+    public Account getAccountById(Long id) {
+        // Формируем запрос
+        StringBuilder query = new StringBuilder(SELECT_ACCOUNT_QUERY);
+        query.append(" AND id = ").append(id);
+
+        Account result = null;
+        // Ищем счет
+        try (Connection connection = ConnectionUtil.getConnection()){
+            CallableStatement stmt = connection.prepareCall(query.toString());
+            List<Account> listResult = handleResultSet(stmt.executeQuery());
+            result = !listResult.isEmpty() ? listResult.get(0) : null;
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Возвращаем счет
+        return result;
+    }
+
     /**
      * Метод для поиска счетов по параметрам
      * @param params параметры для поиска счетов
      * @return список счетов
      */
     public List<Account> getAccountsByParams(List<KeyValueParamsDto> params) {
-        // Проверяем параметры
-        List<KeyValueParamsDto> resultParams = new ArrayList<>();
-        if (params != null) {
-            for (KeyValueParamsDto entry : params) {
-                // Проверяем значение
-                if (checkValueParams(entry, true)) {
-                    resultParams.add(entry);
-                }
-            }
-        }
-
         // Проверка параметров на пустоту
-        if (resultParams.isEmpty()) {
+        if (params == null || params.isEmpty()) {
             return getAccounts();
         }
 
         // Сортируем мапу по логической операции
-        resultParams = resultParams
+        params = params
                 .stream()
                 .sorted(Comparator.comparing(entry -> !entry.getLogicOperation().equals("AND")))
                 .collect(Collectors.toList());
 
         // Формируем запрос
         StringBuilder query = new StringBuilder(SELECT_ACCOUNT_QUERY);
-        for (int i = 0; i < resultParams.size(); i++) {
-            KeyValueParamsDto entry = resultParams.get(i);
+        for (int i = 0; i < params.size(); i++) {
+            KeyValueParamsDto entry = params.get(i);
             if (i == 0) {
                 query.append(String.format(" AND (%s %s ?", entry.getKey(),
                         entry.getCompareOperation()));
@@ -81,7 +84,7 @@ public class AccountDAO {
         // Test
         System.out.println(query);
 
-        return executeQueryWithParams(query.toString(), resultParams);
+        return executeQueryWithParams(query.toString(), params);
     }
 
     /**
@@ -90,29 +93,11 @@ public class AccountDAO {
      * @return идентификатор нового счета
      */
     public Long insertAccount(List<KeyValueParamsDto> params) {
-        // Проверяем параметры
-        List<KeyValueParamsDto> resultParams = new ArrayList<>();
-        if (params != null) {
-            for (KeyValueParamsDto entry : params) {
-                // Проверяем значение
-                if (checkValueParams(entry)) {
-                    resultParams.add(entry);
-                }
-            }
-        }
-
-        // Проверяем число переданных параметров
-        if (resultParams.size() != FIELD_ORDER.size()) {
-            log("Для вставки счета передано недостаточное количество параметров - " +
-                    resultParams.size() + " вместо " + FIELD_ORDER.size());
-            return -1L;
-        }
-
         // Формируем запрос
         long id = -1L;
-        resultParams.sort(Comparator.comparing(param -> FIELD_ORDER.indexOf(param.getKey())));
+        params.sort(Comparator.comparing(param -> FIELD_ORDER.indexOf(param.getKey())));
         try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement stmt = getExecuteUpdateWithParamsStatement(connection, INSERT_ACCOUNT_QUERY, resultParams, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = getExecuteUpdateWithParamsStatement(connection, INSERT_ACCOUNT_QUERY, params, Statement.RETURN_GENERATED_KEYS);
             if (stmt != null) {
                 stmt.executeUpdate();
                 // Получаем идентификатора
@@ -135,26 +120,11 @@ public class AccountDAO {
      * @return результат операции
      */
     public boolean updateAccount(Long id, List<KeyValueParamsDto> params) {
-        // Проверка параметров на пустоту
-        if (params == null || params.isEmpty()) {
-            log("Для обновления счета не передано ни одного параметра");
-            return false;
-        }
-
-        // Проверяем параметры
-        List<KeyValueParamsDto> resultParams = new ArrayList<>();
-        for (KeyValueParamsDto entry : params) {
-            // Проверяем значение
-            if (checkValueParams(entry)) {
-                resultParams.add(entry);
-            }
-        }
-
         // Формируем запрос
         StringBuilder query = new StringBuilder(UPDATE_ACCOUNT_QUERY);
-        for (int i = 0; i < resultParams.size(); i++) {
-            KeyValueParamsDto entry = resultParams.get(i);
-            if (i == resultParams.size() - 1) {
+        for (int i = 0; i <  params.size(); i++) {
+            KeyValueParamsDto entry = params.get(i);
+            if (i == params.size() - 1) {
                 query.append(String.format(" %s = ?", entry.getKey()));
             } else {
                 query.append(String.format(" %s = ?,", entry.getKey()));
@@ -166,7 +136,7 @@ public class AccountDAO {
         System.out.println(query);
 
         try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement stmt = getExecuteUpdateWithParamsStatement(connection, query.toString(), resultParams);
+            PreparedStatement stmt = getExecuteUpdateWithParamsStatement(connection, query.toString(), params);
             if (stmt != null) {
                 return stmt.executeUpdate() > 0;
             }
@@ -349,61 +319,6 @@ public class AccountDAO {
         }
 
         return accounts;
-    }
-
-    /**
-     * Проверка объекта параметра для запроса
-     * @param keyValueParamsDto объект параметра для запроса
-     * @return признак да/нет (валидный/невалидный)
-     */
-    private Boolean checkValueParams(KeyValueParamsDto keyValueParamsDto) {
-        return checkValueParams(keyValueParamsDto, false);
-    }
-
-    /**
-     * Проверка объекта параметра для запроса
-     * @param keyValueParamsDto объект параметра для запроса
-     * @param checkOperation признак проверки операции
-     * @return признак да/нет (валидный/невалидный)
-     */
-    private Boolean checkValueParams(KeyValueParamsDto keyValueParamsDto, boolean checkOperation) {
-        String key = keyValueParamsDto.getKey();
-        // Проверям поле
-        if (!FIELD_ORDER.contains(key) && !key.equals("id")) {
-            log("У сущности Account не существует поля " + key);
-            return false;
-        }
-        // Проверяем операции
-        if (checkOperation) {
-            // Проверка операции сравнения
-            String compareOperation = keyValueParamsDto.getCompareOperation();
-            if (StringUtils.isEmpty(compareOperation)) {
-                compareOperation = DEFAULT_COMPARE_OPERATION;
-            }
-
-            if (!COMPARE_OPERATIONS_SET.contains(compareOperation.toUpperCase())) {
-                log("Не поддерживается операция сравнения \"" + compareOperation + "\". Параметр " + key + " не будет учтен");
-                return false;
-            }
-
-            if (compareOperation.toUpperCase().equals("LIKE") && !(keyValueParamsDto.getValue() instanceof String)) {
-                log("Не поддерживается операция сравнения \"LIKE\" для нестроковых значений. Параметр " + key + " не будет учтен");
-                return false;
-            }
-
-            // Проверка логической операции
-            String logicOperation = keyValueParamsDto.getLogicOperation();
-            if (StringUtils.isEmpty(logicOperation)) {
-                logicOperation = DEFAULT_LOGIC_OPERATION;
-            }
-
-            if (!LOGIC_OPERATIONS_SET.contains(logicOperation.toUpperCase())) {
-                log("Не поддерживается логическая операция \"" + logicOperation + "\". Параметр " + key + " не будет учтен");
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**
