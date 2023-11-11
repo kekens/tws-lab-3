@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import ru.kekens.exception.AccountServiceException;
 import ru.kekens.exception.AccountServiceFault;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -16,6 +17,7 @@ import static ru.kekens.Constants.*;
  * Класс-реализация веб-сервиса
  */
 @WebService(serviceName = "AccountService")
+@HandlerChain(file = "handler-chain.xml")
 public class AccountWebService {
 
     private AccountDAO dao;
